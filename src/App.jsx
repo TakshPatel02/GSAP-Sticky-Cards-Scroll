@@ -7,40 +7,40 @@ const App = () => {
       title1: "The",
       title2: "Algorithm",
       description: "The algorithm's workings are shrouded in complexity",
-      imgSrc: "1.png",
+      imgSrc: "/1.png",
     },
     {
       title1: "The",
       title2: "Dogma",
       description:
         "Enshrining the principles of conformity and reinforcing the status quo",
-      imgSrc: "2.png",
+      imgSrc: "/2.png",
     },
     {
       title1: "The",
       title2: "Architects",
       description:
         "The elusive entities, lacking human form, operate in the shadows",
-      imgSrc: "3.png",
+      imgSrc: "/3.png",
     },
     {
       title1: "The",
       title2: "Wasteland",
       description:
         "This overlooked realm, a consequence of algorithmic judgments.",
-      imgSrc: "4.png",
+      imgSrc: "/4.png",
     },
     {
       title1: "The",
       title2: "Narrative",
       description: "The collective story sculpted by the architects.",
-      imgSrc: "5.png",
+      imgSrc: "/5.png",
     },
     {
       title1: "The",
       title2: "Opulence",
       description: "The cognitive elite's wealth in the algorithmic society.",
-      imgSrc: "6.png",
+      imgSrc: "/6.png",
     },
   ];
 
