@@ -1,8 +1,34 @@
-import React from "react";
+import React, { useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 
-const Card = ({item, index}) => {
+gsap.registerPlugin(ScrollTrigger);
+
+const Card = ({ item, index }) => {
+  const cardRef = useRef(null);
+
+  useGSAP(() => {
+    if (cardRef.current) {
+      gsap.to(cardRef.current, {
+        scale: 0.7,
+        opacity: 0,
+        scrollTrigger: {
+          trigger: cardRef.current,
+          start: "top 80px",
+          end: "bottom 80px",
+          markers: true,
+          scrub: 1.3,
+        },
+      });
+    }
+  }, []);
+
   return (
-    <div className={`card card${index + 1} sticky top-20 h-[79vh] w-120 bg-[#2f251e] rounded-2xl shadow-lg flex flex-col justify-center items-center p-4 text-white`}>
+    <div
+      ref={cardRef}
+      className={`card sticky top-20 h-[79vh] w-120 bg-[#2f251e] rounded-2xl shadow-lg flex flex-col justify-center items-center p-4 text-white`}
+    >
       <img className="size-40 -mt-12" src={item.imgSrc} alt="" />
       <div className="text-center uppercase tracking-tighter text-6xl mt-4">
         <h1>{item.title1}</h1>
