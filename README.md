@@ -1,16 +1,135 @@
-# React + Vite
+# GSAP Sticky Cards ScrollTrigger
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React project demonstrating smooth scroll-based animations using GSAP ScrollTrigger. Cards stack and fade out as you scroll, creating an engaging visual experience.
 
-Currently, two official plugins are available:
+## How to Create This Animation
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Step 1: Install Dependencies
 
-## React Compiler
+```bash
+npm install gsap @gsap/react
+```
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Step 2: Setup Card Component
 
-## Expanding the ESLint configuration
+Import required packages and register ScrollTrigger plugin:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```jsx
+import React, { useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+
+gsap.registerPlugin(ScrollTrigger);
+```
+
+### Step 3: Create Card with Ref
+
+```jsx
+const Card = ({ item, index }) => {
+  const cardRef = useRef(null);
+
+  // Animation logic here
+
+  return (
+    <div ref={cardRef} className="card sticky top-20">
+      {/* Card content */}
+    </div>
+  );
+};
+```
+
+### Step 4: Add ScrollTrigger Animation
+
+```jsx
+useGSAP(() => {
+  if (cardRef.current) {
+    gsap.to(cardRef.current, {
+      scale: 0.7,
+      opacity: 0,
+      scrollTrigger: {
+        trigger: cardRef.current,
+        start: "top 80px",
+        end: "bottom 80px",
+        markers: true,
+        scrub: 1.3,
+      },
+    });
+  }
+}, []);
+```
+
+### Key Points:
+
+- **useRef**: Reference individual card element
+- **useGSAP**: Hook for GSAP animations with proper cleanup
+- **ScrollTrigger**: Syncs animation with scroll position
+- **scrub**: Makes animation follow scroll smoothly
+- **sticky positioning**: Cards stack on top of each other
+
+## ScrollTrigger Properties Explained
+
+### `trigger`
+
+The element that triggers the animation when it enters the viewport.
+
+```jsx
+trigger: cardRef.current; // Start animation when this element scrolls
+```
+
+### `start`
+
+When the animation should start. Format: `"trigger-position viewport-position"`
+
+```jsx
+start: "top 80px"; // Start when element's top hits 80px from viewport top
+// Other examples:
+// "top center" - element's top hits viewport center
+// "center bottom" - element's center hits viewport bottom
+```
+
+### `end`
+
+When the animation should end. Same format as `start`.
+
+```jsx
+end: "bottom 80px"; // End when element's bottom hits 80px from viewport top
+```
+
+### `scrub`
+
+Links animation progress directly to scroll position.
+
+```jsx
+scrub: 1.3; // Smooth animation with 1.3 second delay
+scrub: true; // Instant sync with scroll
+scrub: false; // Play animation once when triggered
+```
+
+### `markers`
+
+Shows visual markers for debugging trigger points.
+
+```jsx
+markers: true; // Show start/end markers (remove in production)
+```
+
+### Other Useful Properties:
+
+- **`pin: true`** - Pins the element during animation
+- **`toggleActions: "play pause resume reset"`** - Control animation on enter/leave
+- **`once: true`** - Animation plays only once
+- **`anticipatePin: 1`** - Prevents jump when pinning
+
+## Run Project
+
+```bash
+npm install
+npm run dev
+```
+
+---
+
+**GitHub Repository Name**: `gsap-sticky-cards-scroll`
+
+**Description**: Smooth scroll-based card stacking animation using React, GSAP, and ScrollTrigger with Tailwind CSS
