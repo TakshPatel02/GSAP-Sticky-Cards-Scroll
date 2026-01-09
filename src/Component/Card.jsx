@@ -17,7 +17,6 @@ const Card = ({ item, index }) => {
           trigger: cardRef.current,
           start: "top 80px",
           end: "bottom 80px",
-          markers: true,
           scrub: 1.3,
         },
       });
