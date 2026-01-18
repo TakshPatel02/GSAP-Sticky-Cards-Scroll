@@ -1,135 +1,108 @@
-# GSAP Sticky Cards ScrollTrigger
+# GSAP Sticky Cards (React + Vite)
 
-A React project demonstrating smooth scroll-based animations using GSAP ScrollTrigger. Cards stack and fade out as you scroll, creating an engaging visual experience.
+A scroll-driven deck of cards built with React, Tailwind CSS, GSAP, and ScrollTrigger. Cards stay sticky while you scroll; as each card crosses the center of the viewport it fades out, revealing the next card beneath it.
 
-## How to Create This Animation
+## Features
 
-### Step 1: Install Dependencies
+- Sticky stacked cards with smooth fade-out driven by ScrollTrigger
+- Lightweight React + Vite setup with Tailwind CSS v4
+- Reusable Card component and data-driven content
+- Ready-to-deploy build (includes gh-pages script)
+
+## Tech Stack
+
+- React 19 + Vite 7
+- Tailwind CSS 4
+- GSAP 3 + @gsap/react + ScrollTrigger
+- ESLint 9 (recommended linting)
+
+## Getting Started
+
+1. Install dependencies
 
 ```bash
-npm install gsap @gsap/react
+npm install
 ```
 
-### Step 2: Setup Card Component
+2. Run the dev server
 
-Import required packages and register ScrollTrigger plugin:
-
-```jsx
-import React, { useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
-
-gsap.registerPlugin(ScrollTrigger);
+```bash
+npm run dev
 ```
 
-### Step 3: Create Card with Ref
+3. Build for production
 
-```jsx
-const Card = ({ item, index }) => {
-  const cardRef = useRef(null);
-
-  // Animation logic here
-
-  return (
-    <div ref={cardRef} className="card sticky top-20">
-      {/* Card content */}
-    </div>
-  );
-};
+```bash
+npm run build
 ```
 
-### Step 4: Add ScrollTrigger Animation
+4. Preview the production build
+
+```bash
+npm run preview
+```
+
+5. Deploy to GitHub Pages (needs repo remote configured)
+
+```bash
+npm run deploy
+```
+
+## Project Structure
+
+```
+src/
+  App.jsx
+  Component/
+    Card.jsx
+    HeroSection.jsx
+    Navbar.jsx
+    Footer.jsx
+  assets/
+public/
+  1.png ... 6.png
+```
+
+## How the Animation Works
+
+- Each card uses a ref and useGSAP hook to register a ScrollTrigger.
+- The card fades out as its top crosses the viewport center and is fully transparent once it is 100px above the viewport.
+- scrub ties progress to scroll for a smooth handoff between cards.
+
+Key snippet from [src/Component/Card.jsx](src/Component/Card.jsx):
 
 ```jsx
 useGSAP(() => {
   if (cardRef.current) {
     gsap.to(cardRef.current, {
-      scale: 0.7,
       opacity: 0,
       scrollTrigger: {
         trigger: cardRef.current,
-        start: "top 80px",
-        end: "bottom 80px",
-        markers: true,
-        scrub: 1.3,
+        start: "top center",
+        end: "top -100px",
+        scrub: 1.5,
+        markers: false,
       },
     });
   }
 }, []);
 ```
 
-### Key Points:
+## Customizing Content
 
-- **useRef**: Reference individual card element
-- **useGSAP**: Hook for GSAP animations with proper cleanup
-- **ScrollTrigger**: Syncs animation with scroll position
-- **scrub**: Makes animation follow scroll smoothly
-- **sticky positioning**: Cards stack on top of each other
+- Update the card data array in [src/App.jsx](src/App.jsx) (titles, descriptions, image names).
+- Add or replace images in public/ and reference them by file name in the data array.
+- Tailwind classes on the card container in [src/Component/Card.jsx](src/Component/Card.jsx) control sizing, spacing, and colors.
 
-## ScrollTrigger Properties Explained
+## Linting
 
-### `trigger`
-
-The element that triggers the animation when it enters the viewport.
-
-```jsx
-trigger: cardRef.current; // Start animation when this element scrolls
-```
-
-### `start`
-
-When the animation should start. Format: `"trigger-position viewport-position"`
-
-```jsx
-start: "top 80px"; // Start when element's top hits 80px from viewport top
-// Other examples:
-// "top center" - element's top hits viewport center
-// "center bottom" - element's center hits viewport bottom
-```
-
-### `end`
-
-When the animation should end. Same format as `start`.
-
-```jsx
-end: "bottom 80px"; // End when element's bottom hits 80px from viewport top
-```
-
-### `scrub`
-
-Links animation progress directly to scroll position.
-
-```jsx
-scrub: 1.3; // Smooth animation with 1.3 second delay
-scrub: true; // Instant sync with scroll
-scrub: false; // Play animation once when triggered
-```
-
-### `markers`
-
-Shows visual markers for debugging trigger points.
-
-```jsx
-markers: true; // Show start/end markers (remove in production)
-```
-
-### Other Useful Properties:
-
-- **`pin: true`** - Pins the element during animation
-- **`toggleActions: "play pause resume reset"`** - Control animation on enter/leave
-- **`once: true`** - Animation plays only once
-- **`anticipatePin: 1`** - Prevents jump when pinning
-
-## Run Project
+Run ESLint (optional but recommended):
 
 ```bash
-npm install
-npm run dev
+npm run lint
 ```
 
----
+## Notes
 
-**GitHub Repository Name**: `gsap-sticky-cards-scroll`
-
-**Description**: Smooth scroll-based card stacking animation using React, GSAP, and ScrollTrigger with Tailwind CSS
+- Ensure images referenced in the data array exist in public/ (for example, 1.png ... 6.png).
+- ScrollTrigger markers are disabled; enable by setting markers: true while debugging.
