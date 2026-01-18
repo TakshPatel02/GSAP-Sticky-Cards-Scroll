@@ -1,5 +1,8 @@
 import React from "react";
 import Card from "./Component/Card";
+import Navbar from "./Component/Navbar";
+import HeroSection from "./Component/HeroSection";
+import Footer from "./Component/Footer";
 
 const App = () => {
   const data = [
@@ -45,11 +48,18 @@ const App = () => {
   ];
 
   return (
-    <div className="w-full h-auto gap-20 py-20 bg-stone-950/95 flex flex-col justify-center items-center">
-      {data.map((item, index) => (
-        <Card key={index} item={item} index={index} />
-      ))}
-    </div>
+    <>
+      <div className="w-full h-auto bg-[#12110e]">
+        <Navbar />
+        <HeroSection />
+        <div className=" gap-10 py-10  flex flex-col justify-center items-center mt-45">
+          {data.map((item, index) => (
+            <Card key={index} item={item} index={index} />
+          ))}
+        </div>
+        <Footer />
+      </div>
+    </>
   );
 };
 
